@@ -51,7 +51,6 @@ export default function InvestmentPortfolio() {
     <div className="min-h-screen bg-slate-900 text-slate-100 p-4 md:p-8 font-sans">
       <div className="max-w-7xl mx-auto space-y-8">
         <DashboardHeader />
-
         <KpiCards 
           totalValue={totalValue}
           totalInvested={totalInvested}
@@ -62,13 +61,11 @@ export default function InvestmentPortfolio() {
           annualReturn={annualReturn}
           formatIDR={formatIDR}
         />
-
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Pie Chart Alokasi */}
           <div className="lg:col-span-1">
             <PortfolioChart assets={assets} formatIDR={formatIDR} />
           </div>
-          
           <GrowthSimulator 
             monthlyContribution={monthlyContribution}
             setMonthlyContribution={setMonthlyContribution}
@@ -84,13 +81,8 @@ export default function InvestmentPortfolio() {
             <AddAssetForm onAddAsset={handleAddAsset} />
           </div>
         </div>
-
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          
-
-          
         </div>
-
         <AssetTable 
           assets={assets}
           totalValue={totalValue}

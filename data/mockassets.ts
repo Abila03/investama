@@ -10,5 +10,8 @@ export const INITIAL_ASSETS = [
   { id: 9, name: 'Sukuk Ritel', category: 'Obligasi', initialAmount: 1000000000000, currentValue: 1180000000000 },
   { id: 10, name: 'Sukuk Tabungan', category: 'Obligasi', initialAmount: 1000000000000, currentValue: 1150000000000 },
   { id: 11, name: 'Reksadana Pasar Uang', category: 'Reksadana', initialAmount: 6000000000000, currentValue: 6120000000000 },
-  { id: 12, name: 'Kas', category: 'Kas', initialAmount: 4000000000000, currentValue: 4000000000000 },
+  { id: 12, name: 'XGLD', category: 'ETF', initialAmount: 600000000, currentValue: 612000000 },
+  { id: 13, name: 'XTRA', category: 'ETF', initialAmount: 600000000, currentValue: 612000000 },
+  { id: 14, name: 'XMES', category: 'ETF', initialAmount: 600000000, currentValue: 612000000 },
+  { id: 15, name: 'Kas', category: 'Kas', initialAmount: 4000000000000, currentValue: 4000000000000 },
 ];

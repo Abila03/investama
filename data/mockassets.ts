@@ -1,0 +1,14 @@
+export const INITIAL_ASSETS = [
+  { id: 1, name: 'Growth Equity', category: 'Saham', initialAmount: 10138000000000, currentValue: 14212859000000 },
+  { id: 2, name: 'Reksadana Pendapatan Tetap', category: 'Reksadana', initialAmount: 2000000000000, currentValue: 2200000000000 },
+  { id: 3, name: 'Obligasi Negara FR', category: 'Obligasi', initialAmount: 4000000000000, currentValue: 4720000000000 },
+  { id: 4, name: 'Crypto', category: 'Kripto', initialAmount: 6880016034, currentValue: 8582262714 },
+  { id: 5, name: 'US Equity', category: 'Saham', initialAmount: 1538322000000, currentValue: 5941472000000 },
+  { id: 6, name: 'Dividend Equity', category: 'Saham', initialAmount: 300889000000, currentValue: 492650000000 },
+  { id: 7, name: 'Gold', category: 'Komoditas', initialAmount: 2000000000000, currentValue: 4600000000000 },
+  { id: 8, name: 'Reksadana Saham', category: 'Reksadana', initialAmount: 1000000000000, currentValue: 1500000000000 },
+  { id: 9, name: 'Sukuk Ritel', category: 'Obligasi', initialAmount: 1000000000000, currentValue: 1180000000000 },
+  { id: 10, name: 'Sukuk Tabungan', category: 'Obligasi', initialAmount: 1000000000000, currentValue: 1150000000000 },
+  { id: 11, name: 'Reksadana Pasar Uang', category: 'Reksadana', initialAmount: 6000000000000, currentValue: 6120000000000 },
+  { id: 12, name: 'Kas', category: 'Kas', initialAmount: 4000000000000, currentValue: 4000000000000 },
+];

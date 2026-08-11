@@ -1,69 +1,103 @@
-import Image from "next/image";
+'use client';
 
-export default function Home() {
+import React, { useState } from 'react';
+import { Asset } from '@/components/dashboard/types';
+import { INITIAL_ASSETS } from '@/data/mockassets';
+import { formatIDR } from '@/utils/formatters';
+
+import DashboardHeader from '@/components/dashboard/dashboardheader';
+import KpiCards from '@/components/dashboard/kpicards';
+import GrowthSimulator from '@/components/dashboard/growthsimulator';
+import AddAssetForm from '@/components/dashboard/addassetform';
+import AssetTable from '@/components/dashboard/assettable';
+import PortfolioChart from '@/components/dashboard/chart';
+
+
+
+
+export default function InvestmentPortfolio() {
+  const [assets, setAssets] = useState<Asset[]>(INITIAL_ASSETS);
+  const [monthlyContribution, setMonthlyContribution] = useState<number>(2000000);
+  const [annualReturn, setAnnualReturn] = useState<number>(10);
+  const [years, setYears] = useState<number>(10);
+
+  // Perhitungan Nilai Utama
+  const totalValue = assets.reduce((sum, item) => sum + item.currentValue, 0);
+  const totalInvested = assets.reduce((sum, item) => sum + item.initialAmount, 0);
+  const totalProfitLoss = totalValue - totalInvested;
+  const percentagePL = totalInvested > 0 ? ((totalProfitLoss / totalInvested) * 100).toFixed(2) : '0';
+
+
+
+  // Kalkulasi Proyeksi Masa Depan
+  const calculateProjection = () => {
+    let currentBalance = totalValue;
+    const monthlyRate = annualReturn / 100 / 12;
+    const totalMonths = years * 12;
+    for (let i = 0; i < totalMonths; i++) {
+      currentBalance = (currentBalance + monthlyContribution) * (1 + monthlyRate);
+    }
+    return currentBalance;
+  };
+
+  const handleAddAsset = (newAsset: Asset) => setAssets([...assets, newAsset]);
+  const handleDeleteAsset = (id: number) => setAssets(assets.filter(a => a.id !== id));
+  
+  const formatIDR = (val: number) => {
+    return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(val);
+  };
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
+    <div className="min-h-screen bg-slate-900 text-slate-100 p-4 md:p-8 font-sans">
+      <div className="max-w-7xl mx-auto space-y-8">
+        <DashboardHeader />
+
+        <KpiCards 
+          totalValue={totalValue}
+          totalInvested={totalInvested}
+          totalProfitLoss={totalProfitLoss}
+          percentagePL={percentagePL}
+          projectedValue={calculateProjection()}
+          years={years}
+          annualReturn={annualReturn}
+          formatIDR={formatIDR}
         />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* Pie Chart Alokasi */}
+          <div className="lg:col-span-1">
+            <PortfolioChart assets={assets} formatIDR={formatIDR} />
+          </div>
+          
+          <GrowthSimulator 
+            monthlyContribution={monthlyContribution}
+            setMonthlyContribution={setMonthlyContribution}
+            annualReturn={annualReturn}
+            setAnnualReturn={setAnnualReturn}
+            years={years}
+            setYears={setYears}
+            totalValue={totalValue}
+            projectedValue={calculateProjection()}
+            formatIDR={formatIDR}
+          />
+          <div className="lg:col-span-2">
+            <AddAssetForm onAddAsset={handleAddAsset} />
+          </div>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          
+
+          
         </div>
-      </main>
+
+        <AssetTable 
+          assets={assets}
+          totalValue={totalValue}
+          onDeleteAsset={handleDeleteAsset}
+          formatIDR={formatIDR}
+        />
+      </div>
     </div>
   );
 }
